@@ -1,0 +1,30 @@
+{
+  "name": "phonebuzz",
+  "version": "1.0.0",
+  "description": "PhoneBuzz is an implementation of FizzBuzz over the phone. ",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "path": "^0.11.14",
+    "twilio": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/alemontree/PhoneBuzz.git"
+  },
+  "keywords": [
+    "FizzBuzz",
+    "Twilio"
+  ],
+  "author": "Mikhail Shnayder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alemontree/PhoneBuzz/issues"
+  },
+  "homepage": "https://github.com/alemontree/PhoneBuzz#readme"
+}
