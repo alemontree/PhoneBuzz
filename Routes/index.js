@@ -6,41 +6,24 @@ var twilio = require('twilio');
 var config = require("../config");
 var fizzBuzz = require("../fizzbuzz");
 
-// Create a Twilio REST API client for authenticated requests to Twilio
 var client = twilio(config.accountSid, config.authToken);
 
-// Configure appplication routes
 module.exports = function(app) {
-    // Set Jade as the default template engine
-    // app.set('view engine', 'jade');
-
-    // Express static file middleware - serves up JS, CSS, and images from the
-    // "public" directory where we started our webapp process
     app.use(express.static(path.join(process.cwd(), 'Public')));
 
-    // Parse incoming request bodies as form-encoded
     app.use(bodyParser.urlencoded({
         extended: true
     }));
 
-    // Use morgan for HTTP request logging
     app.use(morgan('combined'));
 
-    // Home Page with Click to Call 
     app.get('/', function(request, response) {
         response.sendFile(path.join(process.cwd(),'Public/index.html'));
     });
 
-    // Handle an AJAX POST request to place an outbound call
     app.post('/call', function(request, response) {
-        // This should be the publicly accessible URL for your application
-        // Here, we just use the host for the application making the request,
-        // but you can hard code it or use something different if need be
         var url = 'http://' + request.headers.host + '/outbound';
-        console.log(url);
         
-        // Place an outbound call to the user, using the TwiML instructions
-        // from the /outbound route
         client.makeCall({
             to: request.body.phoneNumber,
             from: config.twilioNumber,
@@ -57,13 +40,7 @@ module.exports = function(app) {
         });
     });
 
-    // Return TwiML instuctions for the outbound call
     app.post('/outbound', function(request, response) {
-        // We could use twilio.TwimlResponse, but Jade works too - here's how
-        // we would render a TwiML (XML) response using Jade
-
-        // response.send('hello');
-        console.log('received');
         response.type('text/xml');
 
         var resp = twilio.TwimlResponse();
@@ -73,12 +50,8 @@ module.exports = function(app) {
             language:'en-gb'
         });
         console.log(resp.toString());
+        response.type('text/xml');
         response.send(resp.toString());
-        // response.writeHead(200, {'Content-Type': 'text/xml'});
-        // response.end(resp.toString());
 
-
-        // response.type('text/xml');
-        // response.render('outbound');
     });
 };
